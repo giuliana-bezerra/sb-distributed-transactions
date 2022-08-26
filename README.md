@@ -6,9 +6,9 @@ O projeto possui um job que lê um arquivo de usuários e os insere no banco de 
 ## Roteiro
 
 - [ ] Contextualizar necessidade
-- [ ] [Testar sem 2PC](v1.0)
+- [ ] [Configuração de múltiplos bancos de escrita sem 2PC](v1.0)
 - [ ] Configurar Atomikos
-- [ ] [Testar com 2PC](v2.0)
+- [ ] [Configuração de múltiplos bancos de escrita com 2PC](v2.0)
 
 ## Referências
 

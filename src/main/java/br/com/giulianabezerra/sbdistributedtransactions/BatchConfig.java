@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @EnableBatchProcessing
@@ -33,6 +34,10 @@ public class BatchConfig {
 
   @Autowired
   private StepBuilderFactory stepBuilderFactory;
+
+  @Autowired
+  @Qualifier("transactionManagerJta")
+  private PlatformTransactionManager transactionManagerApp;
 
   @Bean
   public Job job(Step step) {
@@ -51,6 +56,7 @@ public class BatchConfig {
         .<Pessoa, Pessoa>chunk(200)
         .reader(reader)
         .writer(writer)
+        .transactionManager(transactionManagerApp)
         .build();
   }
 
@@ -91,8 +97,6 @@ public class BatchConfig {
         .dataSource(dataSource)
         .sql(
             "INSERT INTO pessoa (id, nome, email, data_nascimento, idade) VALUES (?, ?, ?, ?, ?)")
-        // .itemSqlParameterSourceProvider(new
-        // BeanPropertyItemSqlParameterSourceProvider<>())
         .itemPreparedStatementSetter(itemPreparedStatementSetter())
         .build();
   }
