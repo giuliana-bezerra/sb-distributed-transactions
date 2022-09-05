@@ -1,6 +1,7 @@
 package br.com.giulianabezerra.sbdistributedtransactions;
 
 import javax.sql.DataSource;
+import javax.sql.XADataSource;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -33,12 +34,8 @@ public class DatasourceConfig {
   }
 
   @Bean
-  @ConfigurationProperties(prefix = "db1.datasource")
   public DataSource db1DS(@Qualifier("db1Props") DataSourceProperties dsProps) {
-    MysqlXADataSource xaDataSource = new MysqlXADataSource();
-    xaDataSource.setUrl(dsProps.getUrl());
-    xaDataSource.setUser(dsProps.getUsername());
-    xaDataSource.setPassword(dsProps.getPassword());
+    XADataSource xaDataSource = createXaDataSource(dsProps);
     AtomikosDataSourceBean bean = new AtomikosDataSourceBean();
     bean.setXaDataSource(xaDataSource);
     bean.setUniqueResourceName("xaDb1");
@@ -52,16 +49,20 @@ public class DatasourceConfig {
   }
 
   @Bean
-  @ConfigurationProperties(prefix = "db2.datasource")
   public DataSource db2DS(@Qualifier("db2Props") DataSourceProperties dsProps) {
-    MysqlXADataSource xaDataSource = new MysqlXADataSource();
-    xaDataSource.setUrl(dsProps.getUrl());
-    xaDataSource.setUser(dsProps.getUsername());
-    xaDataSource.setPassword(dsProps.getPassword());
+    XADataSource xaDataSource = createXaDataSource(dsProps);
     AtomikosDataSourceBean bean = new AtomikosDataSourceBean();
     bean.setXaDataSource(xaDataSource);
     bean.setUniqueResourceName("xaDb2");
     return bean;
+  }
+
+  private XADataSource createXaDataSource(DataSourceProperties dsProps) {
+    MysqlXADataSource xaDataSource = new MysqlXADataSource();
+    xaDataSource.setUrl(dsProps.getUrl());
+    xaDataSource.setUser(dsProps.getUsername());
+    xaDataSource.setPassword(dsProps.getPassword());
+    return xaDataSource;
   }
 
   @Primary
