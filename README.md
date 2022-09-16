@@ -13,4 +13,5 @@ O projeto possui um job que lê um arquivo de usuários e os insere no banco de 
 
 ## Referências
 
+- [Vídeo do Youtube](https://youtu.be/T9Hgyxbh5V0)
 - [Curso de Spring Batch](https://www.udemy.com/course/curso-para-desenvolvimento-de-jobs-com-spring-batch/?referralCode=8743E206FA9240686B20)
